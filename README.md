@@ -25,3 +25,14 @@ git clone https://github.com/harshitchaturvedy1/regex-tester.git
 Pull requests are welcome!
 Open an issue for bugs or feature requests.
 Questions? Feel free to reach out at harshitchaturvedy [at] gmail.com
+
+## Roadmap
+
+Planned features for future versions:
+
+- Conversational AI regex debugger
+- Smart pattern suggestions from pasted text
+- Unit test generation (Python, Jest, Go)
+- Regex railroad diagram visualization
+- Saved pattern library with version history
+- Team sharing and collaboration
