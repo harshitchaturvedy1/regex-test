@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegEx Tester Pro - AI-Powered Learning Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #1c2128;
+            --bg-elevated: #21262d;
+            --border-primary: #30363d;
+            --border-secondary: #21262d;
+            --accent-blue: #58a6ff;
+            --accent-purple: #bc8cff;
+            --accent-green: #56d364;
+            --accent-orange: #ffa657;
+            --accent-red: #f85149;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-tertiary: #6e7681;
+            --text-link: #58a6ff;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.20);
+            --shadow-xl: 0 12px 36px rgba(0, 0, 0, 0.25);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-primary);
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            animation: slideInDown 0.6s ease;
+        }
+
+        .header-content {
+            max-width: 1800px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .badge {
+            background: var(--bg-elevated);
+            color: var(--accent-blue);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid var(--border-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-secondary);
+        }
+
+        .icon-button:hover {
+            background: var(--bg-elevated);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .icon-button:active {
+            transform: translateY(0);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 2rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        /* Layout */
+        .layout {
+            display: grid;
+            grid-template-columns: 320px 1fr 320px;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1400px) {
+            .layout {
+                grid-template-columns: 280px 1fr;
+            }
+            .right-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+            .left-sidebar {
+                display: none;
+            }
+        }
+
+        /* Sidebars */
+        .left-sidebar, .right-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .left-sidebar {
+            animation: slideInLeft 0.8s ease 0.2s both;
+        }
+
+        .right-sidebar {
+            animation: slideInRight 0.8s ease 0.2s both;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: scaleIn 0.5s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-secondary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-primary);
+        }
+
+        .card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title i {
+            color: var(--accent-blue);
+            font-size: 1rem;
+        }
+
+        .card-content {
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: slideInUp 0.8s ease 0.1s both;
+        }
+
+        /* Input Section */
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 968px) {
+            .input-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .label i {
+            color: var(--accent-blue);
+            font-size: 0.875rem;
+        }
+
+        input[type="text"], textarea, select {
+            width: 100%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 0.875rem;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            background: var(--bg-secondary);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 180px;
+            line-height: 1.6;
+        }
+
+        /* Flags */
+        .flags {
+            display: flex;
+            gap: 1.25rem;
+            margin-top: 0.75rem;
+        }
+
+        .flag-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+        }
+
+        .flag-option:hover {
+            color: var(--accent-blue);
+        }
+
+        .flag-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent-blue);
+        }
+
+        .flag-option label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            transition: color 0.3s ease;
+        }
+
+        .flag-option:hover label {
+            color: var(--accent-blue);
+        }
+
+        /* Pattern Chips */
+        .pattern-chips {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+        }
+
+        .chip {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            padding: 0.5rem 0.875rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+        }
+
+        .chip i {
+            font-size: 0.75rem;
+        }
+
+        .chip:hover {
+            background: var(--bg-elevated);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            line-height: 1;
+        }
+
+        /* Display */
+        .display-area {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 1.25rem;
+            min-height: 200px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: var(--text-primary);
+            position: relative;
+            overflow: auto;
+            max-height: 500px;
+        }
+
+        .match-highlight {
+            background: rgba(88, 166, 255, 0.15);
+            border-bottom: 2px solid var(--accent-blue);
+            padding: 2px 0;
+            font-weight: 600;
+            animation: highlightPulse 0.4s ease;
+        }
+
+        @keyframes highlightPulse {
+            0% {
+                background: rgba(88, 166, 255, 0);
+            }
+            50% {
+                background: rgba(88, 166, 255, 0.3);
+            }
+            100% {
+                background: rgba(88, 166, 255, 0.15);
+            }
+        }
+
+        /* Explanation */
+        .explanation-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-left: 3px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            animation: slideInLeft 0.4s ease;
+        }
+
+        .explanation-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .explanation-content {
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .explanation-content code {
+            background: var(--bg-elevated);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-orange);
+            font-size: 0.85em;
+            border: 1px solid var(--border-primary);
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background: #4a8ed6;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-elevated);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn i {
+            font-size: 0.875rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.25rem;
+            border-bottom: 1px solid var(--border-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab {
+            padding: 0.875rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tab:hover {
+            color: var(--accent-blue);
+            background: var(--bg-tertiary);
+        }
+
+        .tab.active {
+            color: var(--accent-blue);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            animation: scaleIn 0.3s ease;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* AI Panel */
+        .ai-panel {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            animation: slideInDown 0.5s ease;
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            color: var(--accent-purple);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ai-header i {
+            animation: pulse 2s ease infinite;
+        }
+
+        .ai-message {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-left: 3px solid var(--accent-purple);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .ai-options {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .ai-option {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            padding: 0.625rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .ai-option:hover {
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Suggestions */
+        .suggestion-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-left: 3px solid var(--accent-green);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            animation: slideInRight 0.4s ease;
+        }
+
+        .suggestion-card:hover {
+            border-color: var(--accent-green);
+            transform: translateX(4px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .suggestion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .suggestion-type {
+            font-weight: 600;
+            color: var(--accent-green);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .suggestion-pattern {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            border: 1px solid var(--border-primary);
+            word-break: break-all;
+        }
+
+        .suggestion-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Library */
+        .library-item {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInLeft 0.4s ease;
+        }
+
+        .library-item:hover {
+            border-color: var(--accent-blue);
+            transform: translateX(4px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .library-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .library-item-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .library-item-pattern {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            color: var(--accent-orange);
+            font-size: 0.8rem;
+            border: 1px solid var(--border-primary);
+            word-break: break-all;
+        }
+
+        .library-item-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+
+        .library-item-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.75rem;
+            color: var(--text-tertiary);
+        }
+
+        .library-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .library-btn {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            color: var(--text-secondary);
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .library-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            margin-top: 1.5rem;
+            overflow: hidden;
+            animation: slideInUp 0.4s ease;
+        }
+
+        .code-header {
+            background: var(--bg-elevated);
+            border-bottom: 1px solid var(--border-primary);
+            padding: 0.875rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-language {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent-orange);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .code-content {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            white-space: pre;
+            overflow-x: auto;
+            padding: 1.25rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-tertiary);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--text-tertiary);
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Error */
+        .error {
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid var(--accent-red);
+            border-left: 3px solid var(--accent-red);
+            border-radius: 8px;
+            padding: 1rem;
+            color: var(--accent-red);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            animation: shake 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--bg-elevated);
+            color: var(--text-primary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-primary);
+            font-weight: 600;
+            box-shadow: var(--shadow-xl);
+            animation: slideInUp 0.3s ease, fadeOut 0.3s ease 2.7s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .toast.success {
+            border-color: var(--accent-green);
+        }
+
+        .toast.error {
+            border-color: var(--accent-red);
+        }
+
+        .toast i {
+            font-size: 1.25rem;
+        }
+
+        .toast.success i {
+            color: var(--accent-green);
+        }
+
+        .toast.error i {
+            color: var(--accent-red);
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border-primary);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: rotate 0.8s linear infinite;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-blue);
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none;
+        }
+
+        .text-green {
+            color: var(--accent-green);
+        }
+
+        .text-blue {
+            color: var(--accent-blue);
+        }
+
+        .text-purple {
+            color: var(--accent-purple);
+        }
+
+        .text-orange {
+            color: var(--accent-orange);
+        }
+
+        .text-red {
+            color: var(--accent-red);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo-icon">R</div>
+                <h1>
+                    RegEx Tester Pro
+                    <span class="badge">AI-Powered</span>
+                </h1>
+            </div>
+            <div class="header-actions">
+                <button class="icon-button" id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="icon-button" id="settingsBtn" title="Settings">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="icon-button" id="infoBtn" title="Help">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="layout">
+            <!-- Left Sidebar -->
+            <aside class="left-sidebar">
+                <!-- Pattern Library -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-bookmark"></i>
+                            Pattern Library
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <button class="btn btn-block btn-small" id="savePattern">
+                            <i class="fas fa-save"></i>
+                            Save Current
+                        </button>
+                        <div id="libraryList" style="margin-top: 1rem;">
+                            <div class="empty-state">
+                                <i class="fas fa-folder-open"></i>
+                                <p>No saved patterns</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-bolt"></i>
+                            Quick Actions
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <button class="btn btn-secondary btn-block btn-small" style="margin-bottom: 0.5rem;">
+                            <i class="fas fa-download"></i>
+                            Export Pattern
+                        </button>
+                        <button class="btn btn-secondary btn-block btn-small" style="margin-bottom: 0.5rem;">
+                            <i class="fas fa-share-alt"></i>
+                            Share
+                        </button>
+                        <button class="btn btn-secondary btn-block btn-small">
+                            <i class="fas fa-history"></i>
+                            History
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- AI Assistant Panel -->
+                <div class="ai-panel" id="aiPanel" style="display: none;">
+                    <div class="ai-header">
+                        <i class="fas fa-robot"></i>
+                        AI Assistant
+                    </div>
+                    <div id="aiMessages"></div>
+                </div>
+
+                <!-- Input Section -->
+                <div class="input-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-code"></i>
+                                Pattern
+                            </h2>
+                        </div>
+                        <div class="card-content">
+                            <label class="label">
+                                <i class="fas fa-terminal"></i>
+                                Regular Expression
+                            </label>
+                            <input type="text" id="regexInput" placeholder="e.g., \d{3}-\d{3}-\d{4}" autocomplete="off">
+
+                            <div class="flags">
+                                <div class="flag-option">
+                                    <input type="checkbox" id="flagGlobal" checked>
+                                    <label for="flagGlobal">g</label>
+                                </div>
+                                <div class="flag-option">
+                                    <input type="checkbox" id="flagCaseInsensitive">
+                                    <label for="flagCaseInsensitive">i</label>
+                                </div>
+                                <div class="flag-option">
+                                    <input type="checkbox" id="flagMultiline">
+                                    <label for="flagMultiline">m</label>
+                                </div>
+                            </div>
+
+                            <label class="label" style="margin-top: 1rem;">
+                                <i class="fas fa-star"></i>
+                                Quick Patterns
+                            </label>
+                            <div class="pattern-chips">
+                                <div class="chip" data-pattern="\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b">
+                                    <i class="fas fa-envelope"></i>
+                                    Email
+                                </div>
+                                <div class="chip" data-pattern="\d{3}-\d{3}-\d{4}">
+                                    <i class="fas fa-phone"></i>
+                                    Phone
+                                </div>
+                                <div class="chip" data-pattern="https?://[^\s]+">
+                                    <i class="fas fa-link"></i>
+                                    URL
+                                </div>
+                                <div class="chip" data-pattern="\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b">
+                                    <i class="fas fa-network-wired"></i>
+                                    IP
+                                </div>
+                                <div class="chip" data-pattern="\b(?:0[1-9]|1[0-2])/(?:0[1-9]|[12][0-9]|3[01])/(?:19|20)\d{2}\b">
+                                    <i class="fas fa-calendar"></i>
+                                    Date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">
+                                <i class="fas fa-file-alt"></i>
+                                Test Text
+                            </h2>
+                        </div>
+                        <div class="card-content">
+                            <label class="label">
+                                <i class="fas fa-paragraph"></i>
+                                Sample Text
+                            </label>
+                            <textarea id="testText" placeholder="Enter or paste your test text here..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="card">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-label">
+                                <i class="fas fa-check-circle"></i>
+                                Matches
+                            </div>
+                            <div class="stat-value" id="matchCount">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">
+                                <i class="fas fa-layer-group"></i>
+                                Groups
+                            </div>
+                            <div class="stat-value" id="groupCount">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">
+                                <i class="fas fa-clock"></i>
+                                Performance
+                            </div>
+                            <div class="stat-value" id="perfTime">
+                                <span style="font-size: 1.5rem;">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="errorDisplay"></div>
+                    <div id="explanationDisplay"></div>
+
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-eye"></i>
+                            Live Preview
+                        </h2>
+                        <button class="btn btn-secondary btn-small" id="copyMatches">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </div>
+                    
+                    <div id="testTextDisplay" class="display-area">
+                        <div class="empty-state">
+                            <i class="fas fa-search"></i>
+                            <p>Enter a regex pattern and test text to see matches highlighted</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Features -->
+                <div class="card">
+                    <div class="tabs">
+                        <button class="tab active" data-tab="tests">
+                            <i class="fas fa-vial"></i>
+                            Unit Tests
+                        </button>
+                        <button class="tab" data-tab="visualization">
+                            <i class="fas fa-project-diagram"></i>
+                            Visualization
+                        </button>
+                        <button class="tab" data-tab="performance">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Performance
+                        </button>
+                    </div>
+
+                    <!-- Unit Tests Tab -->
+                    <div class="tab-content active" id="tests-content">
+                        <label class="label">
+                            <i class="fas fa-code-branch"></i>
+                            Language
+                        </label>
+                        <select id="testLanguage">
+                            <option value="python">Python (unittest)</option>
+                            <option value="javascript">JavaScript (Jest)</option>
+                            <option value="go">Go (testing)</option>
+                        </select>
+
+                        <button class="btn btn-block" id="generateTests" style="margin-top: 1rem;">
+                            <i class="fas fa-flask"></i>
+                            Generate Unit Tests
+                        </button>
+
+                        <div id="testCodeOutput"></div>
+                    </div>
+
+                    <!-- Visualization Tab -->
+                    <div class="tab-content" id="visualization-content">
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Visualize your regex pattern as a railroad diagram
+                        </p>
+                        <button class="btn btn-block" id="generateDiagram">
+                            <i class="fas fa-sitemap"></i>
+                            Generate Diagram
+                        </button>
+                        <div id="railroadOutput"></div>
+                    </div>
+
+                    <!-- Performance Tab -->
+                    <div class="tab-content" id="performance-content">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-label">
+                                    <i class="fas fa-stopwatch"></i>
+                                    Execution Time
+                                </div>
+                                <div class="stat-value" id="execTime">
+                                    <span style="font-size: 1.2rem;">- ms</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-label">
+                                    <i class="fas fa-chart-line"></i>
+                                    Complexity
+                                </div>
+                                <div class="stat-value" id="complexity">
+                                    <span style="font-size: 1.5rem;">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-secondary); margin-top: 1rem;">
+                            Performance metrics are calculated based on pattern complexity and execution time
+                        </p>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar -->
+            <aside class="right-sidebar">
+                <!-- Smart Suggestions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-lightbulb"></i>
+                            Suggestions
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div id="suggestionsPanel">
+                            <div class="empty-state">
+                                <i class="fas fa-magic"></i>
+                                <p>Enter text to get suggestions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Documentation -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <i class="fas fa-book"></i>
+                            Quick Reference
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.8;">
+                            <div style="margin-bottom: 0.75rem;">
+                                <code style="background: var(--bg-elevated); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--accent-orange);">\d</code> 
+                                <span style="color: var(--text-tertiary);">- Digit</span>
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <code style="background: var(--bg-elevated); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--accent-orange);">\w</code> 
+                                <span style="color: var(--text-tertiary);">- Word char</span>
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <code style="background: var(--bg-elevated); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--accent-orange);">\s</code> 
+                                <span style="color: var(--text-tertiary);">- Whitespace</span>
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <code style="background: var(--bg-elevated); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--accent-orange);">+</code> 
+                                <span style="color: var(--text-tertiary);">- One or more</span>
+                            </div>
+                            <div style="margin-bottom: 0.75rem;">
+                                <code style="background: var(--bg-elevated); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--accent-orange);">*</code> 
+                                <span style="color: var(--text-tertiary);">- Zero or more</span>
+                            </div>
+                            <div>
+                                <code style="background: var(--bg-elevated); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--accent-orange);">?</code> 
+                                <span style="color: var(--text-tertiary);">- Optional</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        // State
+        let currentMatches = [];
+        let savedPatterns = JSON.parse(localStorage.getItem('regexPatterns') || '[]');
+
+        // DOM Elements
+        const regexInput = document.getElementById('regexInput');
+        const testText = document.getElementById('testText');
+        const testTextDisplay = document.getElementById('testTextDisplay');
+        const matchCount = document.getElementById('matchCount');
+        const groupCount = document.getElementById('groupCount');
+        const perfTime = document.getElementById('perfTime');
+        const explanationDisplay = document.getElementById('explanationDisplay');
+        const errorDisplay = document.getElementById('errorDisplay');
+        const flagGlobal = document.getElementById('flagGlobal');
+        const flagCaseInsensitive = document.getElementById('flagCaseInsensitive');
+        const flagMultiline = document.getElementById('flagMultiline');
+        const aiPanel = document.getElementById('aiPanel');
+        const aiMessages = document.getElementById('aiMessages');
+        const suggestionsPanel = document.getElementById('suggestionsPanel');
+        const libraryList = document.getElementById('libraryList');
+        const testLanguage = document.getElementById('testLanguage');
+
+        // Event listeners
+        regexInput.addEventListener('input', updateMatches);
+        testText.addEventListener('input', () => {
+            updateMatches();
+            generateSuggestions();
+        });
+        flagGlobal.addEventListener('change', updateMatches);
+        flagCaseInsensitive.addEventListener('change', updateMatches);
+        flagMultiline.addEventListener('change', updateMatches);
+
+        // Quick pattern chips
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                regexInput.value = chip.dataset.pattern;
+                updateMatches();
+                showAIMessage("Pattern loaded. This will match " + chip.textContent.trim().toLowerCase() + " in your text.");
+            });
+        });
+
+        // Copy matches
+        document.getElementById('copyMatches').addEventListener('click', () => {
+            if (currentMatches.length === 0) {
+                showToast('No matches to copy', 'error');
+                return;
+            }
+            const matchesText = currentMatches.join('\n');
+            navigator.clipboard.writeText(matchesText).then(() => {
+                showToast('Matches copied to clipboard', 'success');
+            });
+        });
+
+        // Save pattern
+        document.getElementById('savePattern').addEventListener('click', () => {
+            const pattern = regexInput.value;
+            if (!pattern) {
+                showToast('Enter a pattern first', 'error');
+                return;
+            }
+
+            const name = prompt('Pattern name:');
+            if (!name) return;
+
+            const description = prompt('Brief description:');
+            
+            savedPatterns.push({
+                id: Date.now(),
+                name,
+                pattern,
+                description: description || '',
+                flags: getFlags(),
+                created: new Date().toISOString()
+            });
+
+            localStorage.setItem('regexPatterns', JSON.stringify(savedPatterns));
+            renderLibrary();
+            showToast('Pattern saved successfully', 'success');
+        });
+
+        // Generate tests
+        document.getElementById('generateTests').addEventListener('click', () => {
+            const pattern = regexInput.value;
+            if (!pattern) {
+                showToast('Enter a pattern first', 'error');
+                return;
+            }
+
+            const language = testLanguage.value;
+            const code = generateUnitTests(pattern, getFlags(), currentMatches, language);
+            
+            const output = document.getElementById('testCodeOutput');
+            output.innerHTML = `
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-language">
+                            <i class="fas fa-file-code"></i>
+                            ${language}
+                        </span>
+                        <button class="btn btn-secondary btn-small" onclick="copyCode(this)">
+                            <i class="fas fa-copy"></i>
+                            Copy
+                        </button>
+                    </div>
+                    <pre class="code-content">${escapeHtml(code)}</pre>
+                </div>
+            `;
+        });
+
+        // Generate diagram
+        document.getElementById('generateDiagram').addEventListener('click', () => {
+            const pattern = regexInput.value;
+            if (!pattern) {
+                showToast('Enter a pattern first', 'error');
+                return;
+            }
+
+            const output = document.getElementById('railroadOutput');
+            output.innerHTML = `
+                <div style="background: var(--bg-tertiary); border: 1px solid var(--border-primary); border-radius: 8px; padding: 2rem; margin-top: 1rem; text-align: center;">
+                    <i class="fas fa-project-diagram" style="font-size: 3rem; color: var(--text-tertiary); opacity: 0.5; margin-bottom: 1rem;"></i>
+                    <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                        <strong>Pattern:</strong> <code style="background: var(--bg-elevated); padding: 0.25rem 0.5rem; border-radius: 4px; color: var(--accent-orange);">${escapeHtml(pattern)}</code>
+                    </p>
+                    <p style="color: var(--text-tertiary); font-style: italic;">
+                        Railroad diagram visualization will be available in a future update. This feature will show a visual flow diagram of your regex pattern for easier understanding.
+                    </p>
+                </div>
+            `;
+        });
+
+        // Tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + '-content').classList.add('active');
+            });
+        });
+
+        function updateMatches() {
+            const pattern = regexInput.value;
+            const text = testText.value;
+            const startTime = performance.now();
+
+            errorDisplay.innerHTML = '';
+
+            if (!pattern || !text) {
+                testTextDisplay.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <p>Enter a regex pattern and test text to see matches highlighted</p>
+                    </div>
+                `;
+                explanationDisplay.innerHTML = '';
+                matchCount.textContent = '0';
+                groupCount.textContent = '0';
+                perfTime.innerHTML = '<span style="font-size: 1.5rem;">-</span>';
+                currentMatches = [];
+                return;
+            }
+
+            try {
+                const flags = getFlags();
+                const regex = new RegExp(pattern, flags);
+                const matches = [];
+
+                const globalRegex = new RegExp(pattern, flags.includes('g') ? flags : flags + 'g');
+                let match;
+                while ((match = globalRegex.exec(text)) !== null) {
+                    matches.push({
+                        text: match[0],
+                        index: match.index,
+                        groups: match.slice(1).filter(g => g !== undefined),
+                        namedGroups: match.groups || {}
+                    });
+                }
+
+                currentMatches = matches.map(m => m.text);
+
+                const endTime = performance.now();
+                const execTime = (endTime - startTime).toFixed(2);
+                
+                matchCount.textContent = matches.length;
+                perfTime.innerHTML = `<span style="font-size: 1rem;">${execTime}ms</span>`;
+                
+                // Update performance tab
+                document.getElementById('execTime').innerHTML = `<span style="font-size: 1.2rem;">${execTime}ms</span>`;
+                
+                const complexity = calculateComplexity(pattern);
+                document.getElementById('complexity').innerHTML = `<span style="font-size: 1.5rem;">${complexity}</span>`;
+                
+                const uniqueGroups = new Set();
+                matches.forEach(m => {
+                    Object.keys(m.namedGroups).forEach(name => uniqueGroups.add(name));
+                });
+                groupCount.textContent = uniqueGroups.size;
+
+                highlightMatches(text, matches);
+                showExplanation(pattern, flags);
+
+                // AI assistance
+                if (matches.length === 0 && pattern.length > 3) {
+                    showAIMessage("No matches found. Want help refining your pattern?", [
+                        { text: "Make it less strict", action: () => suggestLoosening(pattern) },
+                        { text: "Explain why", action: () => explainNoMatches(pattern, text) }
+                    ]);
+                } else if (matches.length > 0) {
+                    detectIntent(pattern, matches);
+                }
+
+            } catch (error) {
+                errorDisplay.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Invalid regex: ${error.message}</span>
+                    </div>
+                `;
+                testTextDisplay.innerHTML = escapeHtml(text);
+                explanationDisplay.innerHTML = '';
+                matchCount.textContent = '0';
+                groupCount.textContent = '0';
+                perfTime.innerHTML = '<span style="font-size: 1.5rem;">-</span>';
+            }
+        }
+
+        function calculateComplexity(pattern) {
+            let score = 0;
+            if (pattern.includes('+')) score++;
+            if (pattern.includes('*')) score++;
+            if (pattern.includes('?')) score++;
+            if (pattern.includes('|')) score += 2;
+            if (pattern.includes('(?:')) score += 2;
+            if (pattern.includes('(?=')) score += 3;
+            if (pattern.includes('(?!')) score += 3;
+            if (pattern.match(/\{.*?\}/)) score += 2;
+            
+            if (score <= 2) return 'Low';
+            if (score <= 5) return 'Medium';
+            return 'High';
+        }
+
+        function highlightMatches(text, matches) {
+            if (matches.length === 0) {
+                testTextDisplay.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-times-circle"></i>
+                        <p>No matches found in the text</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let highlightedText = '';
+            let lastIndex = 0;
+
+            matches.forEach((match) => {
+                highlightedText += escapeHtml(text.substring(lastIndex, match.index));
+                highlightedText += `<span class="match-highlight">${escapeHtml(match.text)}</span>`;
+                lastIndex = match.index + match.text.length;
+            });
+
+            highlightedText += escapeHtml(text.substring(lastIndex));
+            testTextDisplay.innerHTML = highlightedText;
+        }
+
+        function showExplanation(pattern, flags) {
+            const explanation = explainRegex(pattern, flags);
+            
+            explanationDisplay.innerHTML = `
+                <div class="explanation-box">
+                    <div class="explanation-header">
+                        <i class="fas fa-book-open"></i>
+                        Plain English Explanation
+                    </div>
+                    <div class="explanation-content">${explanation}</div>
+                </div>
+            `;
+        }
+
+        function explainRegex(pattern, flags) {
+            let explanation = [];
+            
+            if (flags) {
+                let flagExp = 'Flags: ';
+                if (flags.includes('g')) flagExp += '<code>g</code> (find all matches), ';
+                if (flags.includes('i')) flagExp += '<code>i</code> (case-insensitive), ';
+                if (flags.includes('m')) flagExp += '<code>m</code> (multiline), ';
+                explanation.push(flagExp.slice(0, -2) + '.');
+            }
+
+            const components = [];
+            if (pattern.includes('\\d')) components.push('<code>\\d</code> matches digits');
+            if (pattern.includes('\\w')) components.push('<code>\\w</code> matches word characters');
+            if (pattern.includes('\\s')) components.push('<code>\\s</code> matches whitespace');
+            if (pattern.includes('\\b')) components.push('<code>\\b</code> matches word boundaries');
+            if (pattern.includes('.')) components.push('<code>.</code> matches any character');
+            if (pattern.includes('^')) components.push('<code>^</code> matches line start');
+            if (pattern.includes('$')) components.push('<code>$</code> matches line end');
+            if (pattern.includes('+')) components.push('<code>+</code> means one or more');
+            if (pattern.includes('*')) components.push('<code>*</code> means zero or more');
+            if (pattern.includes('?')) components.push('<code>?</code> means optional');
+
+            const quantMatch = pattern.match(/\{(\d+)(,(\d+))?\}/);
+            if (quantMatch) {
+                const min = quantMatch[1];
+                const max = quantMatch[3];
+                if (max) {
+                    components.push(`<code>{${min},${max}}</code> means ${min} to ${max} repetitions`);
+                } else if (quantMatch[0].includes(',')) {
+                    components.push(`<code>{${min},}</code> means ${min} or more`);
+                } else {
+                    components.push(`<code>{${min}}</code> means exactly ${min}`);
+                }
+            }
+
+            if (components.length > 0) {
+                explanation.push('Pattern breakdown: ' + components.join('; ') + '.');
+            }
+
+            return explanation.join(' ');
+        }
+
+        function getFlags() {
+            let flags = '';
+            if (flagGlobal.checked) flags += 'g';
+            if (flagCaseInsensitive.checked) flags += 'i';
+            if (flagMultiline.checked) flags += 'm';
+            return flags;
+        }
+
+        function showAIMessage(message, options = []) {
+            aiPanel.style.display = 'block';
+            
+            let html = `<div class="ai-message">${message}`;
+            
+            if (options.length > 0) {
+                html += '<div class="ai-options">';
+                options.forEach(opt => {
+                    const id = 'ai-opt-' + Date.now() + Math.random();
+                    html += `<div class="ai-option" onclick="window.aiActions['${id}']()">${opt.text}</div>`;
+                    window.aiActions = window.aiActions || {};
+                    window.aiActions[id] = opt.action;
+                });
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            aiMessages.innerHTML = html;
+        }
+
+        function detectIntent(pattern, matches) {
+            const sampleText = matches.map(m => m.text).join(' ');
+            
+            if (pattern.includes('@') || sampleText.includes('@')) {
+                showAIMessage("Email pattern detected. Want to handle special cases?", [
+                    { text: "Improve pattern", action: () => {
+                        regexInput.value = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b";
+                        updateMatches();
+                    }}
+                ]);
+            } else if (pattern.includes('\\d{3}') && pattern.includes('-')) {
+                showAIMessage("Phone number pattern detected. Include country codes?", [
+                    { text: "Add country code support", action: () => {
+                        regexInput.value = "\\+?1?\\s*\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}";
+                        updateMatches();
+                    }}
+                ]);
+            }
+        }
+
+        function suggestLoosening(pattern) {
+            showToast('Suggestion: Try removing strict quantifiers or word boundaries', 'success');
+        }
+
+        function explainNoMatches(pattern, text) {
+            showAIMessage("Your pattern didn't find matches because the text format might not match the pattern structure. Try adjusting quantifiers or character classes.");
+        }
+
+        function generateSuggestions() {
+            const text = testText.value;
+            if (!text || text.length < 10) {
+                suggestionsPanel.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-magic"></i>
+                        <p>Enter text to get suggestions</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const suggestions = [];
+
+            // Detect patterns
+            if (/@/.test(text)) {
+                suggestions.push({
+                    type: "Email",
+                    icon: "envelope",
+                    pattern: "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b",
+                    desc: "Matches email addresses"
+                });
+            }
+
+            if (/\d{3}[-\s]?\d{3}[-\s]?\d{4}/.test(text)) {
+                suggestions.push({
+                    type: "Phone",
+                    icon: "phone",
+                    pattern: "\\d{3}[-\\s]?\\d{3}[-\\s]?\\d{4}",
+                    desc: "Matches phone numbers"
+                });
+            }
+
+            if (/https?:\/\//.test(text)) {
+                suggestions.push({
+                    type: "URL",
+                    icon: "link",
+                    pattern: "https?://[^\\s]+",
+                    desc: "Matches web URLs"
+                });
+            }
+
+            if (/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/.test(text)) {
+                suggestions.push({
+                    type: "IP Address",
+                    icon: "network-wired",
+                    pattern: "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b",
+                    desc: "Matches IPv4 addresses"
+                });
+            }
+
+            if (/\d{1,2}\/\d{1,2}\/\d{2,4}/.test(text)) {
+                suggestions.push({
+                    type: "Date",
+                    icon: "calendar",
+                    pattern: "\\b(?:0[1-9]|1[0-2])/(?:0[1-9]|[12][0-9]|3[01])/(?:19|20)\\d{2}\\b",
+                    desc: "Matches dates (MM/DD/YYYY)"
+                });
+            }
+
+            if (suggestions.length === 0) {
+                suggestionsPanel.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <p>No patterns detected</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const html = suggestions.map(s => `
+                <div class="suggestion-card">
+                    <div class="suggestion-header">
+                        <span class="suggestion-type">
+                            <i class="fas fa-${s.icon}"></i>
+                            ${s.type}
+                        </span>
+                        <button class="btn btn-secondary btn-small" onclick="applySuggestion('${s.pattern.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-check"></i>
+                            Apply
+                        </button>
+                    </div>
+                    <div class="suggestion-pattern">${escapeHtml(s.pattern)}</div>
+                    <div class="suggestion-desc">${s.desc}</div>
+                </div>
+            `).join('');
+
+            suggestionsPanel.innerHTML = html;
+        }
+
+        function applySuggestion(pattern) {
+            regexInput.value = pattern;
+            updateMatches();
+            showToast('Pattern applied successfully', 'success');
+        }
+
+        function generateUnitTests(pattern, flags, matches, language) {
+            const sampleMatch = matches[0] || 'test';
+            const nonMatch = 'xyz123';
+
+            if (language === 'python') {
+                return `import re
+import unittest
+
+class TestRegexPattern(unittest.TestCase):
+    def setUp(self):
+        self.pattern = r"${pattern}"
+        self.flags = ${flags.includes('i') ? 're.IGNORECASE' : '0'}
+    
+    def test_valid_match(self):
+        """Test that the pattern matches valid input"""
+        text = "${sampleMatch}"
+        match = re.search(self.pattern, text, self.flags)
+        self.assertIsNotNone(match)
+    
+    def test_invalid_match(self):
+        """Test that the pattern doesn't match invalid input"""
+        text = "${nonMatch}"
+        match = re.search(self.pattern, text, self.flags)
+        self.assertIsNone(match)
+    
+    def test_multiple_matches(self):
+        """Test finding multiple matches"""
+        text = "${matches.slice(0, 3).join(' ')}"
+        matches = re.findall(self.pattern, text, self.flags)
+        self.assertGreater(len(matches), 0)
+
+if __name__ == '__main__':
+    unittest.main()`;
+            } else if (language === 'javascript') {
+                return `const pattern = /${pattern}/${flags};
+
+describe('Regex Pattern Tests', () => {
+    test('should match valid input', () => {
+        const text = '${sampleMatch}';
+        expect(text).toMatch(pattern);
+    });
+    
+    test('should not match invalid input', () => {
+        const text = '${nonMatch}';
+        expect(text).not.toMatch(pattern);
+    });
+    
+    test('should find multiple matches', () => {
+        const text = '${matches.slice(0, 3).join(' ')}';
+        const matches = text.match(pattern);
+        expect(matches).not.toBeNull();
+        expect(matches.length).toBeGreaterThan(0);
+    });
+});`;
+            } else if (language === 'go') {
+                return `package main
+
+import (
+    "regexp"
+    "testing"
+)
+
+func TestRegexPattern(t *testing.T) {
+    pattern := \`${pattern}\`
+    re := regexp.MustCompile(pattern)
+    
+    t.Run("ValidMatch", func(t *testing.T) {
+        text := "${sampleMatch}"
+        if !re.MatchString(text) {
+            t.Errorf("Pattern should match %s", text)
+        }
+    })
+    
+    t.Run("InvalidMatch", func(t *testing.T) {
+        text := "${nonMatch}"
+        if re.MatchString(text) {
+            t.Errorf("Pattern should not match %s", text)
+        }
+    })
+}`;
+            }
+        }
+
+        function renderLibrary() {
+            if (savedPatterns.length === 0) {
+                libraryList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <p>No saved patterns</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const html = savedPatterns.map(p => `
+                <div class="library-item" onclick="loadPattern(${p.id})">
+                    <div class="library-item-header">
+                        <div class="library-item-title">${escapeHtml(p.name)}</div>
+                    </div>
+                    <div class="library-item-pattern">${escapeHtml(p.pattern)}</div>
+                    <div class="library-item-desc">${escapeHtml(p.description)}</div>
+                    <div class="library-item-meta">
+                        <span><i class="fas fa-flag"></i> ${p.flags || 'none'}</span>
+                    </div>
+                    <div class="library-actions">
+                        <button class="library-btn" onclick="event.stopPropagation(); loadPattern(${p.id})">
+                            <i class="fas fa-upload"></i>
+                            Load
+                        </button>
+                        <button class="library-btn" onclick="event.stopPropagation(); deletePattern(${p.id})">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            libraryList.innerHTML = html;
+        }
+
+        function loadPattern(id) {
+            const pattern = savedPatterns.find(p => p.id === id);
+            if (!pattern) return;
+
+            regexInput.value = pattern.pattern;
+            
+            flagGlobal.checked = pattern.flags.includes('g');
+            flagCaseInsensitive.checked = pattern.flags.includes('i');
+            flagMultiline.checked = pattern.flags.includes('m');
+            
+            updateMatches();
+            showToast('Pattern loaded successfully', 'success');
+        }
+
+        function deletePattern(id) {
+            if (!confirm('Delete this pattern?')) return;
+            
+            savedPatterns = savedPatterns.filter(p => p.id !== id);
+            localStorage.setItem('regexPatterns', JSON.stringify(savedPatterns));
+            renderLibrary();
+            showToast('Pattern deleted', 'success');
+        }
+
+        function copyCode(btn) {
+            const code = btn.parentElement.nextElementSibling.textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                showToast('Code copied to clipboard', 'success');
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
+            toast.innerHTML = `
+                <i class="fas fa-${icon}"></i>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            renderLibrary();
+            
+            // Load example
+            regexInput.value = '\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b';
+            testText.value = `Contact information:
+support@example.com
+info@company.org
+hello@test-site.co.uk
+
+Invalid formats:
+not-an-email
+@missing-user.com`;
+            updateMatches();
+            generateSuggestions();
+        });
+    </script>
+</body>
+</html>
